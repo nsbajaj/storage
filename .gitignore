@@ -1,5 +1,6 @@
 # Folders
 /storageApp/node_modules
+/storageWebService/node_modules
 
 # Files
 .DS_Store
