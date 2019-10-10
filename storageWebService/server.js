@@ -9,7 +9,7 @@ const HTTP_PORT = process.env.PORT || 8080;
 // Data model and persistent store
 const manager = require("./manager.js");
 
-const m = manager("mongodb://nsbajaj:nsbajaj@senecaweb-shard-00-00-ryf1t.mongodb.net:27017,senecaweb-shard-00-01-ryf1t.mongodb.net:27017,senecaweb-shard-00-02-ryf1t.mongodb.net:27017/bti425_assign2?ssl=true&replicaSet=SenecaWeb-shard-0&authSource=admin&retryWrites=true");
+//const m = manager("mongodb://nsbajaj:nsbajaj@senecaweb-shard-00-00-ryf1t.mongodb.net:27017,senecaweb-shard-00-01-ryf1t.mongodb.net:27017,senecaweb-shard-00-02-ryf1t.mongodb.net:27017/bti425_assign2?ssl=true&replicaSet=SenecaWeb-shard-0&authSource=admin&retryWrites=true");
 
 // Add support for incoming JSON entities
 app.use(bodyParser.json());
@@ -22,9 +22,13 @@ app.get("/", (req,res) => {
     res.sendFile(path.join(__dirname, "/index.html"));
 });
 
+var files = [{"id":1,"fileType":"video/x-mpeg","fileSize":33700440,"dateUploaded":"2017-02-01T19:17:08Z","dateModified":"2017-11-28T18:56:55Z"},
+{"id":2,"fileType":"application/pdf","fileSize":59158711,"dateUploaded":"2018-07-09T11:26:09Z","dateModified":"2018-05-17T02:29:59Z"}];
+
 // Get all
-app.get("/api/items", (req, res) => {
-    res.json({message: "fetch all items"});
+app.get("/api/files", (req, res) => {
+    //res.json({message: "fetch all items"});
+    res.json(files);
 });
 
 // Get one
