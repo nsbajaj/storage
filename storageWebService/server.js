@@ -1,13 +1,21 @@
 // Setup
 const express = require("express");
+const cors = require("cors");
 const path = require("path");
 const bodyParser = require('body-parser');
 const app = express();
 const HTTP_PORT = process.env.PORT || 8080;
-// Or use some other port number that you like better
+
+// Data model and persistent store
+const manager = require("./manager.js");
+
+const m = manager("mongodb://nsbajaj:nsbajaj@senecaweb-shard-00-00-ryf1t.mongodb.net:27017,senecaweb-shard-00-01-ryf1t.mongodb.net:27017,senecaweb-shard-00-02-ryf1t.mongodb.net:27017/bti425_assign2?ssl=true&replicaSet=SenecaWeb-shard-0&authSource=admin&retryWrites=true");
 
 // Add support for incoming JSON entities
 app.use(bodyParser.json());
+
+// Add support for CORS
+app.use(cors());
 
 // Deliver the app's home page to browser clients
 app.get("/", (req,res) => {
