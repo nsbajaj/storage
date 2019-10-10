@@ -22,6 +22,68 @@ app.get("/", (req,res) => {
     res.sendFile(path.join(__dirname, "/index.html"));
 });
 
+// Get all - File
+app.get("/api/files", (req, res) => {
+    res.json(files);
+});
+
+// Get one - File
+app.get("/api/files/:itemId", (req, res) => {
+    let itemId = req.params.itemId;
+    var o = files.find(f => f.id == itemId);
+    if(o == 'undefined'){
+        res.status(404).send("Resource not found");
+    }
+    else {
+        res.json(o);
+    }
+});
+
+// Add - File
+app.post("/api/files", (req, res) => {
+    let newFile = { 
+        name: req.body.name,
+        fileType: req.body.fileType,
+        fileSize: req.body.fileSize,
+        dateUploaded: req.body.dateUploaded,
+        dateModified: req.body.dateModified 
+    };    
+    files.push(newFile);
+    res.status(201).json({message: "Added " + newFile + " as itemID " + files.length});
+});
+
+// Edit - File
+app.put("/api/files/:itemId", (req, res) => {
+    for(var i = 0; i < files.length; i++){
+        if(files[i].id == req.params.itemId){
+            console.log("Found");
+            files[i].name = req.body.name;
+            files[i].fileType = req.body.fileType;
+            files[i].fileSize = req.body.fileSize;
+            files[i].dateUploaded = req.body.dateUploaded;
+            files[i].dateModified = req.body.dateModified;
+            break;
+        }
+    }
+    res.json({message: "update file with Id: " + req.params.itemId + " to " + req.body.name});
+});
+
+// Delete - File
+app.delete("/api/items/:itemId", (req, res) => {
+     res.json({message: "delete user with Id: " + req.params.itemId});
+});
+
+// Resource not found (this should be at the end)
+app.use((req, res) => {
+  res.status(404).send("Resource not found");
+});
+
+// Tell the app to start listening for requests
+app.listen(HTTP_PORT, () => {
+    console.log("Ready to handle requests on port " + HTTP_PORT);
+});
+
+
 var files = [{"id":1,"fileType":"video/x-mpeg","fileSize":33700440,"dateUploaded":"2017-02-01T19:17:08Z","dateModified":"2017-11-28T18:56:55Z"},
 {"id":2,"fileType":"application/pdf","fileSize":59158711,"dateUploaded":"2018-07-09T11:26:09Z","dateModified":"2018-05-17T02:29:59Z"},
 {"id":3,"fileType":"video/avi","fileSize":65143109,"dateUploaded":"2018-03-18T02:25:50Z","dateModified":"2018-01-22T04:33:13Z"},
@@ -272,39 +334,3 @@ var files = [{"id":1,"fileType":"video/x-mpeg","fileSize":33700440,"dateUploaded
 {"id":248,"fileType":"audio/x-mpeg-3","fileSize":93880333,"dateUploaded":"2016-11-19T21:37:01Z","dateModified":"2019-06-18T19:38:19Z"},
 {"id":249,"fileType":"audio/x-mpeg-3","fileSize":87681744,"dateUploaded":"2018-03-13T14:00:28Z","dateModified":"2018-10-16T00:03:14Z"},
 {"id":250,"fileType":"application/x-msexcel","fileSize":5689188,"dateUploaded":"2019-02-11T02:08:08Z","dateModified":"2018-11-30T17:44:48Z"}];
-
-// Get all - File
-app.get("/api/files", (req, res) => {
-    //res.json({message: "fetch all items"});
-    res.json(files);
-});
-
-// Get one - File
-app.get("/api/items/:itemId", (req, res) => {
-    res.json({message: "get user with Id: " + req.params.itemId});
-});
-
-// Add - File
-app.post("/api/items", (req, res) => {
-     res.json({message: "add a user item: " + req.body.firstName + " " + req.body.lastName});
-});
-
-// Edit - File
-app.put("/api/items/:itemId", (req, res) => {
-    res.json({message: "update user with Id: " + req.params.itemId + " to " + req.body.firstName + " " + req.body.lastName});
-});
-
-// Delete - File
-app.delete("/api/items/:itemId", (req, res) => {
-     res.json({message: "delete user with Id: " + req.params.itemId});
-});
-
-// Resource not found (this should be at the end)
-app.use((req, res) => {
-  res.status(404).send("Resource not found");
-});
-
-// Tell the app to start listening for requests
-app.listen(HTTP_PORT, () => {
-    console.log("Ready to handle requests on port " + HTTP_PORT);
-});
