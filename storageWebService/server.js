@@ -56,7 +56,6 @@ app.post("/api/files", (req, res) => {
 app.put("/api/files/:itemId", (req, res) => {
     for(var i = 0; i < files.length; i++){
         if(files[i].id == req.params.itemId){
-            console.log("Found");
             files[i].name = req.body.name;
             files[i].fileType = req.body.fileType;
             files[i].fileSize = req.body.fileSize;
